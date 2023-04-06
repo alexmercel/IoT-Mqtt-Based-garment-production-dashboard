@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<meta http-equiv="refresh" content="5">
+<html>
+  <head>
+    <title>Messages Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+      table {
+        border-collapse: collapse;
+        margin: 20px auto;
+        width: 80%;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #007bff;
+        color: #fff;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Article Tracking</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>RF Tag No.</th>
+          <th>Article Name</th>
+          <th>Status</th>
+          <th>Article Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for message in messages %}
+        <tr>
+          <td>{{ message.timestamp }}</td>
+          <td>{{ message.articleId }}</td>
+          <td>{{ message.articleName }}</td>
+          <td>{{ message.status }}</td>
+          <td>{{ message.articleDesc }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+  <script>
+    var num_messages = {{ num_messages }};
+    setInterval(function() {
+      fetch('/messages')
+        .then(response => response.json())
+        .then(data => {
+          if (data.length != num_messages) {
+            window.location.reload();
+          }
+        })
+        .catch(error => console.error(error));
+    }, 5000);
+  </script>
+</html>
