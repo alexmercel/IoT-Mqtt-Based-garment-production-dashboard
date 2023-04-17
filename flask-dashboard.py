@@ -7,12 +7,13 @@ import matplotlib.pyplot as plt
 app = Flask(__name__)
 
 # Define MQTT broker settings
-broker_address = "localhost"
+broker_address = "192.168.43.203"
 broker_port = 1883
 topic = "my/topic"
 
 # Initialize MQTT client
 client = mqtt.Client()
+client.username_pw_set("user", "pass")
 
 # Define callback function for MQTT connect event
 def on_connect(client, userdata, flags, rc):
@@ -24,7 +25,7 @@ def on_message(client, userdata, msg):
     print("Received message: " + msg.payload.decode())
         # Retrieve the article ID from the message payload
     mq_payload = msg.payload.decode().split("_")   
-    article_id = int(mq_payload[0])
+    article_id = str(mq_payload[0])
     article_status=int(mq_payload[1])
     print (article_id)
 

@@ -5,21 +5,22 @@
 #include <ESP8266WiFi.h>
 
 // Wifi credentials
-const char* ssid = "your_SSID";
-const char* password = "your_PASSWORD";
+const char* ssid = "Abhishek's iPhone";
+const char* password = "patilpatil2";
 
 // MQTT credentials
-const char* mqtt_server = "your_MQTT_broker_IP_address";
-const char* mqtt_username = "your_MQTT_username";
-const char* mqtt_password = "your_MQTT_password";
+const char* mqtt_server = "192.168.43.203";
+const char* mqtt_username = "user";
+const char* mqtt_password = "pass";
 const int mqtt_port = 1883;
+WiFiClient client;
 Adafruit_MQTT_Client mqtt(&client, mqtt_server, mqtt_port, mqtt_username, mqtt_password);
 
 // MQTT topic
 const char* topic = "my/topic";
 
 // RFID setup
-MFRC522 mfrc522(SS_PIN, RST_PIN);
+MFRC522 mfrc522(4, 5);
 String rfid;
 
 void setup() {
@@ -39,15 +40,16 @@ void setup() {
 
   // Connect to MQTT broker
   while (!mqtt.connected()) {
-    Serial.println("Connecting to MQTT broker...");
-    if (mqtt.connect()) {
-      Serial.println("MQTT connected");
-    } else {
-      Serial.print("MQTT connection failed, rc=");
-      Serial.println(mqtt.connectError());
-      delay(5000);
-    }
+  Serial.println("Connecting to MQTT broker...");
+  if (mqtt.connect()) {
+    Serial.println("MQTT connected");
+  } else {
+    Serial.print("MQTT connection failed, state=");
+    Serial.println(mqtt.connected());
+    delay(5000);
   }
+}
+
 }
 
 void loop() {
@@ -66,19 +68,15 @@ void loop() {
   }
 
   // Keep the MQTT client connected
-  if (!mqtt.ping()) {
-    mqtt.disconnect();
-    while (!mqtt.connected()) {
-      Serial.println("MQTT reconnecting...");
-      if (mqtt.connect()) {
-        Serial.println("MQTT connected");
-      } else {
-        Serial.print("MQTT connection failed, rc=");
-        Serial.println(mqtt.connectError());
-        delay(5000);
-      }
-    }
+ if (!mqtt.ping()) {
+  Serial.println("MQTT disconnected, reconnecting...");
+  if (mqtt.connect()) {
+    Serial.println("MQTT reconnected");
+  } else {
+    Serial.print("MQTT connection failed");
+    delay(5000);
   }
+}
 
   delay(1000);
 }
