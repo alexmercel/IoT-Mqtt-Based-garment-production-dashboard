@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<meta http-equiv="refresh" content="5">
+<meta http-equiv="refresh" content="2">
 <html>
   <head>
     <title>Messages Dashboard</title>
     <link rel="stylesheet" type="text/css" href="static/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   </head>
   <body>
     <h1>Article Tracking</h1>
@@ -21,11 +21,11 @@
       <tbody>
         {% for message in messages %}
         <tr>
-          <td>{{ message.timestamp }}</td>
-          <td>{{ message.articleId }}</td>
-          <td>{{ message.articleName }}</td>
-          <td>{{ message.status }}</td>
-          <td>{{ message.articleDesc }}</td>
+          <td>{{ message.time_stamp }}</td>
+          <td>{{ message.article_id }}</td>
+          <td>{{ message.article_name }}</td>
+          <td>{{ message.stage_status }}</td>
+          <td>{{ message.article_description }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -50,16 +50,8 @@
     </div>
   </body>
   <script>
-    var num_messages = {{ num_messages }};
-    setInterval(function() {
-      fetch('/messages')
-        .then(response => response.json())
-        .then(data => {
-          if (data.length != num_messages) {
-            window.location.reload();
-          }
-        })
-        .catch(error => console.error(error));
-    }, 5000);
+    {% if errors %}
+      alert("{{ errors }}");
+    {% endif %}
   </script>
 </html>
