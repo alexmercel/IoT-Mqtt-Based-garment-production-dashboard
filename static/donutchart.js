@@ -13,11 +13,15 @@ function getProdchart1(){
             return sum + value;
             }, 0);
             
+            document.getElementById('completed_line1').textContent = data[0] + ' Articles';
+            document.getElementById('inprogress_line1').textContent = data[1] + ' Articles';
+            document.getElementById('notyetstarted_line1').textContent = data[2] + ' Articles';
             // Update the progress bars
             progressBars.forEach(function(bar, index) {
             var value = data[index];
             var percent = value / total * 100;
             bar.textContent = percent.toFixed(1) + '%';
+            
             bar.style.width = percent + '%';
             });
         });

@@ -119,7 +119,7 @@ def calc_items_in_stage(messages,linecap):
 
     
 #Initialize lines variables in a dict as [A:x1,B:x2] where A, B are lines and x1,x2 are efficiencies
-linecap=10
+linecap=60
 percentage_comp=[]
 items_comp=[]
 percentage_comp_dict={'one':0,'two':0,'three':0}
@@ -176,47 +176,122 @@ def dashboard():
 
     return render_template("dashboard.html", messages=logs, errors=error ,num_messages=len(logs),items_comp=items_comp,progress=progress,user=user)
 
-@app.route("/Prodline1")
-def getProdline1():
-    return jsonify(logs)
-@app.route("/Prodline2")
-def getProdline2():
-    return jsonify(logs)
-@app.route("/Prodline3")
-def getProdline3():
-    return jsonify(logs)
-@app.route("/Prodline4")
-def getProdline4():
-    return jsonify(logs)
+# @app.route("/Prodline1")
+# def getProdline1():
+#     return jsonify(logs)
+# @app.route("/Prodline2")
+# def getProdline2():
+#     return jsonify(logs)
+# @app.route("/Prodline3")
+# def getProdline3():
+#     return jsonify(logs)
+# @app.route("/Prodline4")
+# def getProdline4():
+#     return jsonify(logs)
+
+
 #Send data for each line page progress
 @app.route("/dataProdline1")
 def progressLine1():
-    return jsonify([50,20,40])
+    global linecap
+    stage1_line1 = 0
+    stage2_line1 = 0
+    stage3_line1 = 0
+    target_line1 = linecap
+    try:
+        logs=getWorklogs()
+        date=datetime.now()
+        day=date.day
+        for i in logs:
+            if i['line']=="A":
+                if datetime.strptime(i['time_stamp'],'%Y-%m-%dT%H:%M:%S.%f').day==day:
+                    if i['stage_status']==1:
+                        stage1_line1+=1
+                    if i['stage_status']==2:
+                        stage2_line1+=1
+                    if i['stage_status']==3:
+                        stage3_line1+=1
+    except:
+        pass
+    return jsonify([stage3_line1,stage1_line1-stage3_line1,target_line1-stage1_line1])
+
 @app.route("/dataProdline2")
 def progressLine2():
-    return jsonify([50,20,40])
+    global linecap
+    try:
+        logs=getWorklogs()
+    except:
+        pass
+    stage1=0
+    stage2=0
+    stage3=0
+    target=linecap
+    for i in logs:
+        if i['line']=="B":
+            if i['stage_status']==1:
+                stage1+=1
+            elif i['stage_status']==2:
+                stage2+=1
+            else:
+                stage3+=1
+    return jsonify([stage3,stage1-stage3,target-stage1])
 @app.route("/dataProdline3")
 def progressLine3():
-    return jsonify([50,20,40])
+    global linecap
+    try:
+        logs=getWorklogs()
+    except:
+        pass
+    stage1=0
+    stage2=0
+    stage3=0
+    target=linecap
+    for i in logs:
+        if i['line']=="C":
+            if i['stage_status']==1:
+                stage1+=1
+            elif i['stage_status']==2:
+                stage2+=1
+            else:
+                stage3+=1
+    return jsonify([stage3,stage1-stage3,target-stage1])
 @app.route("/dataProdline4")
 def progressLine4():
-    return jsonify([50,20,40])
+    global linecap
+    try:
+        logs=getWorklogs()
+    except:
+        pass
+    stage1=0
+    stage2=0
+    stage3=0
+    target=linecap
+    for i in logs:
+        if i['line']=="D":
+            if i['stage_status']==1:
+                stage1+=1
+            elif i['stage_status']==2:
+                stage2+=1
+            else:
+                stage3+=1
+    return jsonify([stage3,stage1-stage3,target-stage1])
 
 @app.route('/filterline', methods=['GET'])
 def filterline():
-    datetime_strstart = request.args.get('datetimestart')
-    datetime_strend = request.args.get('datetimeend')
+    datetime_str = request.args.get('datetimestart')
+    # datetime_strend = request.args.get('datetimeend')
     line=request.args.get('line')
-    print(datetime_strend,datetime_strstart)
-    datetime_objstart = datetime.strptime(datetime_strstart, '%Y-%m-%dT%H:%M')
-    datetime_objend = datetime.strptime(datetime_strend, '%Y-%m-%dT%H:%M')
+    # print(datetime_strend,datetime_strstart)
+    datetime_obj = datetime.strptime(datetime_str, '%Y-%m-%dT%H:%M')
+    datetime_day=datetime_obj.day
+    # datetime_objend = datetime.strptime(datetime_strend, '%Y-%m-%dT%H:%M')
     logs=getWorklogs()
     result=[]
-    bardata={}
+    bardata={'':0}
     print (logs)
     for i in logs:
         if i['line']==line:
-            if datetime_objstart <= datetime.strptime(i['time_stamp'],'%Y-%m-%dT%H:%M:%S.%f') <= datetime_objend:
+            if datetime.strptime(i['time_stamp'],'%Y-%m-%dT%H:%M:%S.%f').day == datetime_day:
                 result.append(i)
     for i in result:
             try:
@@ -225,6 +300,10 @@ def filterline():
                 bardata[i['operator']]=1
     print (bardata)
     return jsonify(bardata)
+
+@app.route('/previousdata')
+def previousdata():
+    return render_template('PreviousData.html')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=5000,debug=True, threaded=True)

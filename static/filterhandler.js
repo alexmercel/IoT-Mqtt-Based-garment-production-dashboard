@@ -13,25 +13,39 @@ function filterline1() {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                // do something with the response data, like update the UI
-                const table = document.getElementById('Prodline1');
+            const chart = document.getElementById('chart1');
+            chart.innerHTML=''
 
-            // Clear any existing rows from the table
-            while (table.rows.length > 0) {
-                table.deleteRow(-1);
-            }
+		    let x = 0;
 
-            // Create a row for each item in the data
-            data.forEach(item => {
-                const row = table.insertRow(-1);
-                const keys = Object.keys(item);
+            for (const key in data) {
+			const value = data[key];
 
-                // Create a cell for each key-value pair in the item
-                keys.forEach(key => {
-                    const cell = row.insertCell(-1);
-                    cell.innerHTML = item[key];
-                });
-            });
+			// Create a new rectangle for the bar
+			const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+
+			// Set the dimensions and position of the rectangle
+			rect.setAttribute('x', x);
+			rect.setAttribute('y', 300 - value * 10);
+			rect.setAttribute('width', 50);
+			rect.setAttribute('height', value * 10);
+
+			// Add the rectangle to the chart
+			chart.appendChild(rect);
+
+            // Create a new text element for the label
+			const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+
+			// Set the position and content of the label
+			label.setAttribute('x', x);
+			label.setAttribute('y', 280 - value * 10);
+			label.setAttribute('class', 'label');
+            label.setAttribute('style', 'color:black');
+			label.textContent = key;
+			// Add the label to the chart
+			chart.appendChild(label);
+			x += 60;
+		}
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -52,35 +66,48 @@ function filterline2() {
         const queryString = new URLSearchParams(params).toString();
         const url = `/filterline?line=B&${queryString}`;
         fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                // do something with the response data, like update the UI
-                const table = document.getElementById('Prodline2');
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        const chart = document.getElementById('chart2');
 
-            // Clear any existing rows from the table
-            while (table.rows.length > 0) {
-                table.deleteRow(-1);
-            }
+        let x = 0;
 
-            // Create a row for each item in the data
-            data.forEach(item => {
-                const row = table.insertRow(-1);
-                const keys = Object.keys(item);
+        for (const key in data) {
+        const value = data[key];
 
-                // Create a cell for each key-value pair in the item
-                keys.forEach(key => {
-                    const cell = row.insertCell(-1);
-                    cell.innerHTML = item[key];
-                });
-            });
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                // handle the error, like displaying an error message to the user
-            });
+        // Create a new rectangle for the bar
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 
-    });
+        // Set the dimensions and position of the rectangle
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', 300 - value * 10);
+        rect.setAttribute('width', 50);
+        rect.setAttribute('height', value * 10);
+
+        // Add the rectangle to the chart
+        chart.appendChild(rect);
+
+        // Create a new text element for the label
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+
+        // Set the position and content of the label
+        label.setAttribute('x', x);
+        label.setAttribute('y', 280 - value * 10);
+        label.setAttribute('class', 'label');
+        label.setAttribute('style', 'color:black');
+        label.textContent = key;
+        // Add the label to the chart
+        chart.appendChild(label);
+        x += 60;
+    }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // handle the error, like displaying an error message to the user
+        });
+
+});
 }
 
 //Function to get data for Article 3
@@ -94,34 +121,48 @@ function filterline3() {
         const queryString = new URLSearchParams(params).toString();
         const url = `/filterline?line=C&${queryString}`;
         fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                // do something with the response data, like update the UI
-                const table = document.getElementById('Prodline3');
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        const chart = document.getElementById('chart3');
 
-            // Clear any existing rows from the table
-            while (table.rows.length > 0) {
-                table.deleteRow(-1);
-            }
+        let x = 0;
 
-            // Create a row for each item in the data
-            data.forEach(item => {
-                const row = table.insertRow(-1);
-                const keys = Object.keys(item);
+        for (const key in data) {
+        const value = data[key];
 
-                // Create a cell for each key-value pair in the item
-                keys.forEach(key => {
-                    const cell = row.insertCell(-1);
-                    cell.innerHTML = item[key];
-                });
-            });
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                // handle the error, like displaying an error message to the user
-            });
-    });
+        // Create a new rectangle for the bar
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+
+        // Set the dimensions and position of the rectangle
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', 300 - value * 10);
+        rect.setAttribute('width', 50);
+        rect.setAttribute('height', value * 10);
+
+        // Add the rectangle to the chart
+        chart.appendChild(rect);
+
+        // Create a new text element for the label
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+
+        // Set the position and content of the label
+        label.setAttribute('x', x);
+        label.setAttribute('y', 280 - value * 10);
+        label.setAttribute('class', 'label');
+        label.setAttribute('style', 'color:black');
+        label.textContent = key;
+        // Add the label to the chart
+        chart.appendChild(label);
+        x += 60;
+    }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // handle the error, like displaying an error message to the user
+        });
+
+});
 }
 
 //Function to get data for Article 4
@@ -135,35 +176,48 @@ function filterline4() {
         const queryString = new URLSearchParams(params).toString();
         const url = `/filterline?line=D&${queryString}`;
         fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                // do something with the response data, like update the UI
-                const table = document.getElementById('Prodline4');
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        const chart = document.getElementById('chart4');
 
-            // Clear any existing rows from the table
-            while (table.rows.length > 0) {
-                table.deleteRow(-1);
-            }
+        let x = 0;
 
-            // Create a row for each item in the data
-            data.forEach(item => {
-                const row = table.insertRow(-1);
-                const keys = Object.keys(item);
+        for (const key in data) {
+        const value = data[key];
 
-                // Create a cell for each key-value pair in the item
-                keys.forEach(key => {
-                    const cell = row.insertCell(-1);
-                    cell.innerHTML = item[key];
-                });
-            });
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                // handle the error, like displaying an error message to the user
-            });
+        // Create a new rectangle for the bar
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 
-    });
+        // Set the dimensions and position of the rectangle
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', 300 - value * 10);
+        rect.setAttribute('width', 50);
+        rect.setAttribute('height', value * 10);
+
+        // Add the rectangle to the chart
+        chart.appendChild(rect);
+
+        // Create a new text element for the label
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+
+        // Set the position and content of the label
+        label.setAttribute('x', x);
+        label.setAttribute('y', 280 - value * 10);
+        label.setAttribute('class', 'label');
+        label.setAttribute('style', 'color:black');
+        label.textContent = key;
+        // Add the label to the chart
+        chart.appendChild(label);
+        x += 60;
+    }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // handle the error, like displaying an error message to the user
+        });
+
+});
 }
 
 

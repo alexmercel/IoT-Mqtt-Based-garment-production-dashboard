@@ -6,10 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <script src="static/donutchart.js"></script>
-    <script src="static/fetchLineData.js"></script>
     <script src="static/filterhandler.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script> -->
-
     <!-- Include Bootstrap CSS file -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -47,7 +44,7 @@
                     <a class="nav-link" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
+                    <a class="nav-link" href="{{ url_for('previousdata') }}">Previous Data</a>
                 </li>
             </ul>
 
@@ -68,13 +65,13 @@
                 <hr>
                 <div class="list-group" id="list-tab" role="tablist">
                     <a class="list-group-item list-group-item-action active" id="list-type1-list" data-toggle="list"
-                        href="#article1" role="tab">Type 1</a>
+                        href="#article1" role="tab">Line 1</a>
                     <a class="list-group-item list-group-item-action" id="list-type2-list" data-toggle="list"
-                        href="#article2" role="tab">Type 2</a>
+                        href="#article2" role="tab">Line 2</a>
                     <a class="list-group-item list-group-item-action" id="list-type3-list" data-toggle="list"
-                        href="#article3" role="tab">Type 3</a>
+                        href="#article3" role="tab">Line 3</a>
                     <a class="list-group-item list-group-item-action" id="list-type4-list" data-toggle="list"
-                        href="#article4" role="tab">Type 4</a>
+                        href="#article4" role="tab">Line 4</a>
                 </div>
             </div>
 
@@ -101,16 +98,16 @@
                                 <!-- Second column content -->
                                 <div class="card rounded">
                                     <div class="card-body">
-                                        <h5 class="card-title">Progress</h5>
+                                        <h5 class="card-title">Live Line Progress</h5>
                                         <div class="card-text"
                                             style="width: 10px;display: inline-block; height: 10px; border-radius: 50%; background-color: #1abc9c;">
-                                        </div> Completed <br>
+                                        </div> Completed <div id="completed_line1"></div> <br>
                                         <div class="card-text"
                                             style="width: 10px;display: inline-block; height: 10px; border-radius: 50%; background-color: rgb(255, 166, 0);">
-                                        </div> In-Progress <br>
+                                        </div> In-Progress <div id="inprogress_line1"></div><br>
                                         <div class="card-text"
                                             style="width: 10px;display: inline-block; height: 10px; border-radius: 50%; background-color: grey;">
-                                        </div> Incomplete <br><br><br>
+                                        </div> Not Yet Started <div id="notyetstarted_line1"></div><br>
 
                                         <div class="progress donut-chart" id="donut-chart">
                                             <div class="progress-bar1 progress-bar-primary"
@@ -134,10 +131,6 @@
                                               <label for="datetimestart">Date and Time (Start):</label>
                                               <input type="datetime-local" class="form-control" id="datetimestart" name="datetimestart">
                                             </div>
-                                            <div class="form-group">
-                                                <label for="datetimeend">Date and Time (End):</label>
-                                                <input type="datetime-local" class="form-control" id="datetimeend" name="datetimeend">
-                                              </div>
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                           </form>
                                     </div>
@@ -149,8 +142,7 @@
                                 <div class="card rounded">
                                     <div class="card-body">
                                         <h5 class="card-title">Bar Chart</h5>
-                                        <p class="card-text"></p>
-                                        <table class="card-body" id='Prodline1'></table>
+                                        <svg id="chart1" width="400" height="300"></svg>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +168,7 @@
                                 <!-- Second column content -->
                                 <div class="card rounded">
                                     <div class="card-body">
-                                        <h5 class="card-title">Progress</h5>
+                                        <h5 class="card-title">Live Line Progress</h5>
                                         <div class="card-text"
                                             style="width: 10px;display: inline-block; height: 10px; border-radius: 50%; background-color: #1abc9c;">
                                         </div> Completed <br>
@@ -185,7 +177,7 @@
                                         </div> In-Progress <br>
                                         <div class="card-text"
                                             style="width: 10px;display: inline-block; height: 10px; border-radius: 50%; background-color: grey;">
-                                        </div> Incomplete <br><br><br>
+                                        </div> Not Yet Started <br><br><br>
 
                                         <div class="progress donut-chart" id="donut-chart">
                                             <div class="progress-bar2 progress-bar-primary"
@@ -209,10 +201,6 @@
                                               <label for="datetimestart">Date and Time (Start):</label>
                                               <input type="datetime-local" class="form-control" id="datetimestart" name="datetimestart">
                                             </div>
-                                            <div class="form-group">
-                                                <label for="datetimeend">Date and Time (End):</label>
-                                                <input type="datetime-local" class="form-control" id="datetimeend" name="datetimeend">
-                                              </div>
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                           </form>
                                     </div>
@@ -225,7 +213,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Bar Chart</h5>
                                         <p class="card-text"></p>
-                                        <table class="card-body" id='Prodline2'></table>
+                                        <svg id="chart2" width="400" height="300"></svg>
                                     </div>
                                 </div>
                             </div>
@@ -251,7 +239,7 @@
                                 <!-- Second column content -->
                                 <div class="card rounded">
                                     <div class="card-body">
-                                        <h5 class="card-title">Progress</h5>
+                                        <h5 class="card-title">Live Line Progress</h5>
                                         <div class="card-text"
                                             style="width: 10px;display: inline-block; height: 10px; border-radius: 50%; background-color: #1abc9c;">
                                         </div> Completed <br>
@@ -260,7 +248,7 @@
                                         </div> In-Progress <br>
                                         <div class="card-text"
                                             style="width: 10px;display: inline-block; height: 10px; border-radius: 50%; background-color: grey;">
-                                        </div> Incomplete <br><br><br>
+                                        </div> Not Yet Started <br><br><br>
 
                                         <div class="progress donut-chart" id="donut-chart">
                                             <div class="progress-bar3 progress-bar-primary"
@@ -300,7 +288,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Bar Chart</h5>
                                         <p class="card-text"></p>
-                                        <table class="card-body" id='Prodline3'></table>
+                                        <svg id="chart3" width="400" height="300"></svg>
                                     </div>
                                 </div>
                             </div>
@@ -325,7 +313,7 @@
                                 <!-- Second column content -->
                                 <div class="card rounded">
                                     <div class="card-body">
-                                        <h5 class="card-title">Progress</h5>
+                                        <h5 class="card-title">Live Line Progress</h5>
                                         <div class="card-text"
                                             style="width: 10px;display: inline-block; height: 10px; border-radius: 50%; background-color: #1abc9c;">
                                         </div> Completed <br>
@@ -334,7 +322,7 @@
                                         </div> In-Progress <br>
                                         <div class="card-text"
                                             style="width: 10px;display: inline-block; height: 10px; border-radius: 50%; background-color: grey;">
-                                        </div> Incomplete <br><br><br>
+                                        </div> Not Yet Started <br><br><br>
 
                                         <div class="progress donut-chart" id="donut-chart">
                                             <div class="progress-bar4 progress-bar-primary"
@@ -374,7 +362,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Bar Chart</h5>
                                         <p class="card-text"></p>
-                                        <table class="card-body" id='Prodline4'></table>
+                                        <svg id="chart4" width="400" height="300"></svg>
                                     </div>
                                 </div>
                             </div>
@@ -387,27 +375,18 @@
     </div>
     </div>
     <script>
-        // Call the renderTable function when Type 1 is selected
-        // filterline1() ;
-        // filterline2() ;
         const line1 = document.getElementById('list-type1-list');
         const line2 = document.getElementById('list-type2-list');
         const line3 = document.getElementById('list-type3-list');
         const line4 = document.getElementById('list-type4-list');
         line1.addEventListener('click', filterline1);
         line2.addEventListener('click', filterline2);
-        line3.addEventListener('click', getProdline3);
-        line4.addEventListener('click', getProdline4);
+        line3.addEventListener('click', filterline3);
+        line4.addEventListener('click', filterline4);
         line1.addEventListener('click', getProdchart1);
         line2.addEventListener('click', getProdchart2);
         line3.addEventListener('click', getProdchart3);
         line4.addEventListener('click', getProdchart4);
-//         document.getElementById("my-form").addEventListener("submit", function(event) {
-//   event.preventDefault(); // prevent default form submission
-
-//   // call submitForm function
-//   filterline1();
-// });
     </script>
 
     <!-- Include jQuery and Bootstrap JS files-->

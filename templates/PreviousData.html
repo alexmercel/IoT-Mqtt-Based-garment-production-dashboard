@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="static/donutchart.js"></script>
+    <script src="static/fetchLineData.js"></script>
+    <script src="static/filterhandler.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script> -->
+
+    <!-- Include Bootstrap CSS file -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <!-- Custom styles for this template -->
+    <style>
+        /* Logo styling */
+        .navbar-brand {
+            padding: 5px;
+            margin-left: 10px;
+            height: 50px;
+            max-height: 10%;
+            width: auto;
+        }
+
+        /* User name styling */
+        .user-name {
+            margin-right: 10px;
+        }
+
+        #data1,
+        #data2 {
+            display: none;
+        }
+
+        #data1.show-data,
+        #data2.show-data {
+            display: block;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <!-- Company logo -->
+        <a class="navbar-brand" href="#">
+            <img src="/static/Resources/companylogo.jpg" style="height: 50px;" alt="Company logo">
+        </a>
+
+        <!-- Navigation links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('dashboard') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Previous Data</a>
+                </li>
+            </ul>
+
+            <!-- User name -->
+            <span class="navbar-text user-name">
+                {{user}}
+            </span>
+        </div>
+    </nav>
+    <br>
+    <div>
+        <label for="date-select">Select a date:</label>
+        <input type="date" id="date-select">
+    </div>
+    <div id="data1">
+        <!-- data for the first date goes here -->
+        Table pehle din ki
+    </div>
+
+    <div id="data2">
+        <!-- data for the second date goes here -->
+        Table dusre din ki
+    </div>
+
+    <!-- add more divs as needed for different dates -->
+</body>
+<script>
+    $(document).ready(function() {
+      $('#date-select').change(function() {
+        var selectedDate = $(this).val();
+        showDataForDate(selectedDate);
+      });
+    
+      function showDataForDate(selectedDate) {
+        // hide all of the divs by default
+        $('#data1, #data2').removeClass('show-data');
+    
+        // show the appropriate div based on the selected date
+        if (selectedDate === '2023-04-24') {
+          $('#data1').addClass('show-data');
+        } else if (selectedDate === '2023-04-25') {
+          $('#data2').addClass('show-data');
+        }
+    
+        // add more if/else statements as needed for different dates
+      }
+    });
+    </script>
+    
+    
+
+</html>
